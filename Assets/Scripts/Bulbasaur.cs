@@ -6,6 +6,7 @@ using PokemonInfo;
 
 namespace Assets.Scripts
 {
+    [Serializable]
     class Bulbasaur : Pokemon
     {
         public Bulbasaur()

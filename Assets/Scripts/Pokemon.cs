@@ -38,6 +38,8 @@ public abstract class Pokemon : MonoBehaviour {
 
     public AttackList attackList;
 
+    public Animator animator;
+
     public Pokemon ()
     {
         
@@ -53,7 +55,8 @@ public abstract class Pokemon : MonoBehaviour {
         startingStats = currentStats = baseStats;
         SetTypeStrength();
         SetAttackAnimations();
-	}
+        AssignAnimations();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -63,6 +66,20 @@ public abstract class Pokemon : MonoBehaviour {
     public virtual void SetInfo() { }
     public virtual void SetAttacks() { }
     public virtual void SetBaseStats() { }
+
+    public void AssignAnimations()
+    {
+        AnimatorOverrideController animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+
+        animatorOverrideController["Attack0"] = attacks[0].animationClip;
+        animatorOverrideController["Attack1"] = attacks[1].animationClip;
+        animatorOverrideController["Attack2"] = attacks[2].animationClip;
+        animatorOverrideController["Attack3"] = attacks[3].animationClip;
+
+        animator.runtimeAnimatorController = animatorOverrideController;
+
+        Debug.Log(attacks[0].animationClip.name);
+    }
 
     //This is defending pokemon.
     public void SetTypeStrength()
@@ -209,9 +226,9 @@ public abstract class Pokemon : MonoBehaviour {
             if(attacks[i].name != "")
             {
                 string path = name + "/Animations/" + name + " " + attacks[i].name;
-                Debug.Log(path);
+                //Debug.Log(path);
                 AnimationClip anim = Resources.Load<AnimationClip> (path);
-                Debug.Log(anim);
+                //Debug.Log(anim);
                 attacks[i].animationClip = anim;
             }
         }

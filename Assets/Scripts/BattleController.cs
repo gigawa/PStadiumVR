@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PokemonInfo;   
 
-public class BattleController : MonoBehaviour {
+public class BattleController : ByTheTale.StateMachine.MachineBehaviour {
 
     public GameObject playerPokemon;
     public GameObject enemyPokemon;
@@ -16,8 +16,6 @@ public class BattleController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        AssignAnimations(playerPokemon.GetComponent<Animator>(), playerPokemonControl);
-        AssignAnimations(enemyPokemon.GetComponent<Animator>(), enemyPokemonControl);
         damageCalculation = DamageCalculation.Instance;
     }
 
@@ -26,16 +24,9 @@ public class BattleController : MonoBehaviour {
 
 	}
 
-    public void AssignAnimations(Animator animator, Pokemon pokemon)
+    public override void AddStates()
     {
-        AnimatorOverrideController animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
-
-        animatorOverrideController["Attack0"] = pokemon.attacks[0].animationClip;
-        animatorOverrideController["Attack1"] = pokemon.attacks[1].animationClip;
-        animatorOverrideController["Attack2"] = pokemon.attacks[2].animationClip;
-        animatorOverrideController["Attack3"] = pokemon.attacks[3].animationClip;
-
-        animator.runtimeAnimatorController = animatorOverrideController;
+        throw new System.NotImplementedException();
     }
 
     public void Attack(int index, Animator animator)

@@ -37,7 +37,7 @@ public class DamageCalculation
     }
 
     // TODO: Check and apply type strengths
-    //Calculate and apply physical attacks
+    // Calculate and apply physical attacks
     public void physicalAttack(AttackInfo attack, Pokemon attacker, Pokemon defender)
     {
         float A = attacker.level;
