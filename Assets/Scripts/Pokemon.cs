@@ -26,7 +26,7 @@ public abstract class Pokemon : MonoBehaviour {
     public AttackInfo [] attacks;
 
     protected string [] possibleAttacks;
-    protected string [] knownAttacks;
+    public string[] knownAttacks { get; protected set; }
 
     protected List<PokemonType> weak; //weak against this type
     protected List<PokemonType> strong; //strong against this type
@@ -38,7 +38,7 @@ public abstract class Pokemon : MonoBehaviour {
 
     public AttackList attackList;
 
-    public Animator animator;
+    Animator animator;
 
     public Pokemon ()
     {
@@ -47,6 +47,7 @@ public abstract class Pokemon : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        animator = GetComponent<Animator>();
         attacks = new AttackInfo[4];
         attackList = AttackList.Instance;
         SetInfo();
@@ -70,6 +71,7 @@ public abstract class Pokemon : MonoBehaviour {
     public void AssignAnimations()
     {
         AnimatorOverrideController animatorOverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animatorOverrideController.name = pokemonName;
 
         animatorOverrideController["Attack0"] = attacks[0].animationClip;
         animatorOverrideController["Attack1"] = attacks[1].animationClip;
@@ -78,7 +80,7 @@ public abstract class Pokemon : MonoBehaviour {
 
         animator.runtimeAnimatorController = animatorOverrideController;
 
-        Debug.Log(attacks[0].animationClip.name);
+        Debug.Log(attacks[2].animationClip.name);
     }
 
     //This is defending pokemon.
@@ -234,6 +236,14 @@ public abstract class Pokemon : MonoBehaviour {
         }
     }
 
+    public void Attack(int index)
+    {
+        animator.SetInteger("AttackIndex", index);
+        animator.SetTrigger("Attack");
+        Debug.Log(animator.runtimeAnimatorController.animationClips[index].name);
+    }
+
+    #region Adjust Stats
     public void Heal ()
     {
         currentStats = baseStats;
@@ -268,4 +278,5 @@ public abstract class Pokemon : MonoBehaviour {
     {
         currentStats.speed += x;
     }
+    #endregion
 }
