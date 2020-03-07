@@ -34,6 +34,12 @@ public class BattleController : ByTheTale.StateMachine.MachineBehaviour {
         damageCalculation = DamageCalculation.Instance;
     }
 
+    public override void Start()
+    {
+        base.Start();
+        attackMenu.SetAttackText(playerPokemonControl.knownAttacks);
+    }
+
     public override void AddStates()
     {
         AddState<IdleState>();
@@ -49,22 +55,6 @@ public class BattleController : ByTheTale.StateMachine.MachineBehaviour {
         var attack = attackQueue.Dequeue();
         attack.Item1.Attack(attack.Item2);
     }
-
-    //IEnumerator WaitForAttackAnimation(Animator animator, int index)
-    //{
-    //    isAttacking = true;
-    //    yield return new WaitForSeconds(0.5f);
-    //    while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
-    //    {
-    //        yield return new WaitForSeconds(0.1f);
-    //    }
-    //    AttackOver(index);
-    //}
-
-    //IEnumerator WaitToAttack()
-    //{
-    //    yield return new WaitForSeconds(0.5f);
-    //}
 
     IEnumerator PerformAttacks(Queue<Tuple<Pokemon, int>> attackQueue)
     {

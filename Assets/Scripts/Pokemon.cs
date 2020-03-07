@@ -46,7 +46,7 @@ public abstract class Pokemon : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
         animator = GetComponent<Animator>();
         attacks = new AttackInfo[4];
         attackList = AttackList.Instance;
