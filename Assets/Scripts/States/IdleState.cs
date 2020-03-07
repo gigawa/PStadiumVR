@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class IdleState : ByTheTale.StateMachine.State
 {
@@ -49,17 +50,32 @@ public class IdleState : ByTheTale.StateMachine.State
     void PlayerAttackSelected(int index)
     {
         Debug.Log("Attack Selected: " + index);
-        
-        RoundInfo roundInfo = new RoundInfo();
-        roundInfo.playerAttackIndex = index;
-        roundInfo.enemyAttackIndex = SelectEnemyAttack();
-        battleController.currentRoundInfo = roundInfo;
+
+        QueueAttacks(index, SelectEnemyAttack());
 
         machine.ChangeState<AttackState>();
     }
 
+    void QueueAttacks(int playerAttack, int enemyAttack)
+    {
+        RoundInfo roundInfo = new RoundInfo();
+
+        if (battleController.playerPokemonControl.currentStats.speed > battleController.enemyPokemonControl.currentStats.speed)
+        {
+            roundInfo.attackQueue.Enqueue(new Tuple<Pokemon, int, Pokemon>(battleController.playerPokemonControl, playerAttack, battleController.enemyPokemonControl));
+            roundInfo.attackQueue.Enqueue(new Tuple<Pokemon, int, Pokemon>(battleController.enemyPokemonControl, enemyAttack, battleController.playerPokemonControl));
+        }
+        else
+        {
+            roundInfo.attackQueue.Enqueue(new Tuple<Pokemon, int, Pokemon>(battleController.enemyPokemonControl, enemyAttack, battleController.playerPokemonControl));
+            roundInfo.attackQueue.Enqueue(new Tuple<Pokemon, int, Pokemon>(battleController.playerPokemonControl, playerAttack, battleController.enemyPokemonControl));
+        }
+
+        battleController.currentRoundInfo = roundInfo;
+    }
+
     int SelectEnemyAttack()
     {
-        return Random.Range(0, battleController.enemyPokemonControl.knownAttacks.Length);
+        return UnityEngine.Random.Range(0, battleController.enemyPokemonControl.knownAttacks.Length);
     }
 }

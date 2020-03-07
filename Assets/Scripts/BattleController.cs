@@ -50,19 +50,16 @@ public class BattleController : ByTheTale.StateMachine.MachineBehaviour {
         Debug.Log(initialState);
     }
 
-    public void Attack(Queue<Tuple<Pokemon, int>> attackQueue)
+    public void Attack(Queue<Tuple<Pokemon, int, Pokemon>> attackQueue)
     {
-        var attack = attackQueue.Dequeue();
+        var attack = attackQueue.Peek();
         attack.Item1.Attack(attack.Item2);
     }
 
-    IEnumerator PerformAttacks(Queue<Tuple<Pokemon, int>> attackQueue)
+    IEnumerator PerformAttack()
     {
-        while (attackQueue.Count > 0)
-        {
-            Attack(attackQueue);
-            yield return new WaitForSeconds(1f);
-        }
+        Attack(currentRoundInfo.attackQueue);
+        yield return new WaitForSeconds(1f);
 
         onAttackCompleted();
     }

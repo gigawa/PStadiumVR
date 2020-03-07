@@ -28,23 +28,23 @@ public class DamageCalculation
         }
     }
 
-    public void classifyAttack(AttackInfo attack, Pokemon attacker, Pokemon defender)
+    public void ApplyAttack(AttackInfo attack, Pokemon attacker, Pokemon defender)
     {
         if(attack.category == Category.physical || attack.category == Category.special)
         {
-            physicalAttack(attack, attacker, defender);
+            PhysicalAttack(attack, attacker, defender);
         }
     }
 
     // TODO: Check and apply type strengths
     // Calculate and apply physical attacks
-    public void physicalAttack(AttackInfo attack, Pokemon attacker, Pokemon defender)
+    public void PhysicalAttack(AttackInfo attack, Pokemon attacker, Pokemon defender)
     {
         float A = attacker.level;
         float B = 1f;
         float C = attack.power;
         float D = 1f;
-        float X = 1f;
+        
         float Y = 1f;
         float Z = 255f;
 
@@ -57,15 +57,15 @@ public class DamageCalculation
             B = attacker.currentStats.spAtk;
             D = defender.currentStats.spDef;
         }
-
-        if(attacker.pokemonType == attack.attackType)
-        {
-            X = 1.5f;
-        }
+        
+        float X = attacker.pokemonType == attack.attackType ? 1.5f : 1f;
+        X *= defender.weak.Contains(attack.attackType) ? defender.weak.FindAll(a => a == attack.attackType).Count * 2 : 1;
+        X /= defender.strong.Contains(attack.attackType) ? defender.strong.FindAll(a => a == attack.attackType).Count * 2 : 1;
+        X *= defender.noDamage.Contains(attack.attackType) ? 0 : 1;
 
         float damage = (((((((2 * A) / 5) + 2) * B * D) / 50) + 2) * X * (Y / 10) * Z / 255);
 
-        defender.currentStats.hp -= (int) damage;
+        defender.AdjustHP(-1 * (int)damage);
         Debug.Log(damage);
     }
 }

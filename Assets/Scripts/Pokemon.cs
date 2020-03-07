@@ -28,9 +28,9 @@ public abstract class Pokemon : MonoBehaviour {
     protected string [] possibleAttacks;
     public string[] knownAttacks { get; protected set; }
 
-    protected List<PokemonType> weak; //weak against this type
-    protected List<PokemonType> strong; //strong against this type
-    protected List<PokemonType> noDamage; //does no damage against this
+    public List<PokemonType> weak; //weak against this type
+    public List<PokemonType> strong; //strong against this type
+    public List<PokemonType> noDamage; //does no damage against this
 
     protected List<StatusEffects> volatileEffects;
     protected List<StatusEffects> nonVolatileEffects;

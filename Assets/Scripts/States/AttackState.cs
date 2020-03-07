@@ -21,8 +21,7 @@ public class AttackState : ByTheTale.StateMachine.State
         base.Enter();
 
         SubscribeToEvents();
-        QueueAttacks();
-        battleController.StartCoroutine("PerformAttacks", attackQueue);
+        Attack();
     }
 
     public override void Exit()
@@ -34,31 +33,34 @@ public class AttackState : ByTheTale.StateMachine.State
 
     void SubscribeToEvents()
     {
-        battleController.onAttackCompleted += FinishAttacks;
+        battleController.onAttackCompleted += FinishAttack;
     }
 
     void UnsubscribeToEvents()
     {
-        battleController.onAttackCompleted -= FinishAttacks;
+        battleController.onAttackCompleted -= FinishAttack;
     }
 
-    void QueueAttacks ()
+    void Attack()
     {
-        attackQueue = new Queue<Tuple<Pokemon, int>>();
+        battleController.StartCoroutine("PerformAttack");
+    }
+
+    public void FinishAttack()
+    {
+        var attackTuple = battleController.currentRoundInfo.attackQueue.Dequeue();
+        var attackPokemon = attackTuple.Item1;
+        var defendPokemon = attackTuple.Item3;
+        var attack = attackPokemon.attacks[attackTuple.Item2];
+        DamageCalculation.Instance.ApplyAttack(attack, attackPokemon, defendPokemon);
         
-        if(battleController.playerPokemonControl.currentStats.speed > battleController.enemyPokemonControl.currentStats.speed)
+        if (battleController.currentRoundInfo.attackQueue.Count > 0)
         {
-            attackQueue.Enqueue(new Tuple<Pokemon, int>(battleController.playerPokemonControl, battleController.currentRoundInfo.playerAttackIndex));
-            attackQueue.Enqueue(new Tuple<Pokemon, int> (battleController.enemyPokemonControl, battleController.currentRoundInfo.enemyAttackIndex));
-        }else
-        {
-            attackQueue.Enqueue(new Tuple<Pokemon, int>(battleController.enemyPokemonControl, battleController.currentRoundInfo.enemyAttackIndex));
-            attackQueue.Enqueue(new Tuple<Pokemon, int>(battleController.playerPokemonControl, battleController.currentRoundInfo.playerAttackIndex));
+            Attack();
         }
-    }
-
-    public void FinishAttacks()
-    {
-        machine.ChangeState<IdleState>();
+        else
+        {
+            machine.ChangeState<IdleState>();
+        }
     }
 }
