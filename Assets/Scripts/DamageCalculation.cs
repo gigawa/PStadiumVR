@@ -50,12 +50,12 @@ public class DamageCalculation
 
         if (attack.category == Category.physical)
         {
-            B = attacker.currentStats.attack;
-            D = defender.currentStats.defense;
+            B = attacker.currentStats.attack * (2 / (2 + attacker.statStages.attack));
+            D = defender.currentStats.defense * (2 / (2 + defender.statStages.defense));
         }else
         {
-            B = attacker.currentStats.spAtk;
-            D = defender.currentStats.spDef;
+            B = attacker.currentStats.spAtk * (2 / (2 + attacker.statStages.spAtk));
+            D = defender.currentStats.spDef * (2 / (2 + defender.statStages.spDef));
         }
         
         float X = attacker.pokemonType == attack.attackType ? 1.5f : 1f;

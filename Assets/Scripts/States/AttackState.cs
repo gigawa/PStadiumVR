@@ -7,8 +7,6 @@ public class AttackState : ByTheTale.StateMachine.State
 {
     BattleController battleController;
 
-    private Queue<Tuple<Pokemon, int>> attackQueue;
-
     public override void Initialize()
     {
         base.Initialize();
@@ -60,7 +58,7 @@ public class AttackState : ByTheTale.StateMachine.State
         }
         else
         {
-            machine.ChangeState<IdleState>();
+            machine.ChangeState<RoundCompletedState>();
         }
     }
 }

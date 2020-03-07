@@ -21,8 +21,8 @@ public abstract class Pokemon : MonoBehaviour {
     public int level;
 
     protected stats baseStats;
-    public stats startingStats;
     public stats currentStats;
+    public stats statStages;
     public AttackInfo [] attacks;
 
     protected string [] possibleAttacks;
@@ -53,7 +53,7 @@ public abstract class Pokemon : MonoBehaviour {
         SetInfo();
         SetBaseStats();
         SetAttacks();
-        startingStats = currentStats = baseStats;
+        currentStats = baseStats;
         SetTypeStrength();
         SetAttackAnimations();
         AssignAnimations();
@@ -241,6 +241,16 @@ public abstract class Pokemon : MonoBehaviour {
         animator.SetInteger("AttackIndex", index);
         animator.SetTrigger("Attack");
         Debug.Log(animator.runtimeAnimatorController.animationClips[index].name);
+    }
+
+    public void AdjustStatStage(string stat, int adjustment)
+    {
+        switch(stat)
+        {
+            case "hp":
+                statStages.hp += adjustment;
+                break;
+        };
     }
 
     #region Adjust Stats
