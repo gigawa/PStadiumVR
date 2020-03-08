@@ -7,7 +7,7 @@ using PokemonInfo;
 namespace Assets.Scripts
 {
     [Serializable]
-    class Bulbasaur : Pokemon
+    public class Bulbasaur : Pokemon
     {
         public Bulbasaur()
         {
@@ -18,6 +18,7 @@ namespace Assets.Scripts
         {
             name = "Bulbasaur";
             pokemonType = PokemonType.grass;
+            secondaryType = PokemonType.poison;
             possibleAttacks = new string[] { "Tackle", "Growl", "Leech Seed", "Vine Whip", "Poison Powder", "Razor Leaf", "Growth", "Sleep Powder", "Solar Beam"};
             knownAttacks = new string[] { "Tackle", "Growl", "Leech Seed", "Vine Whip" };
         }

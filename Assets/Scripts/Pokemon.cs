@@ -18,11 +18,15 @@ public abstract class Pokemon : MonoBehaviour {
 
     public string pokemonName;
     public PokemonType pokemonType;
+    public PokemonType secondaryType;
     public int level;
+    public int experience;
 
     protected stats baseStats;
-    public stats currentStats;
+    public stats effectiveStats;
     public stats statStages;
+    public stats statIVs;
+    public stats statEVs;
     public AttackInfo [] attacks;
 
     protected string [] possibleAttacks;
@@ -47,14 +51,23 @@ public abstract class Pokemon : MonoBehaviour {
 
     // Use this for initialization
     void Awake () {
+        strong = new List<PokemonType>();
+        weak = new List<PokemonType>();
+        noDamage = new List<PokemonType>();
+
         animator = GetComponent<Animator>();
         attacks = new AttackInfo[4];
         attackList = AttackList.Instance;
         SetInfo();
         SetBaseStats();
         SetAttacks();
-        currentStats = baseStats;
-        SetTypeStrength();
+        SetIVs();
+        SetEffectiveStats();
+        SetTypeStrength(pokemonType);
+        if(secondaryType != PokemonType.none)
+        {
+            SetTypeStrength(secondaryType);
+        }
         SetAttackAnimations();
         AssignAnimations();
     }
@@ -67,6 +80,26 @@ public abstract class Pokemon : MonoBehaviour {
     public virtual void SetInfo() { }
     public virtual void SetAttacks() { }
     public virtual void SetBaseStats() { }
+
+    public void SetIVs ()
+    {
+        statIVs.attack = Random.Range(0, 16);
+        statIVs.defense = Random.Range(0, 16);
+        statIVs.spAtk = Random.Range(0, 16);
+        statIVs.spDef = Random.Range(0, 16);
+        statIVs.speed = Random.Range(0, 16);
+        statIVs.hp = Random.Range(0, 16);
+    }
+
+    public void SetEffectiveStats ()
+    {
+        effectiveStats.attack = (2 * baseStats.attack + (statIVs.attack * 2) + statEVs.attack) * level / 100 + 5;
+        effectiveStats.defense = (2 * baseStats.defense + (statIVs.defense * 2) + statEVs.defense) * level / 100 + 5;
+        effectiveStats.spAtk = (2 * baseStats.spAtk + (statIVs.spAtk * 2) + statEVs.spAtk) * level / 100 + 5;
+        effectiveStats.spDef = (2 * baseStats.spDef + (statIVs.spDef * 2) + statEVs.spDef) * level / 100 + 5;
+        effectiveStats.speed = (2 * baseStats.speed + (statIVs.speed * 2) + statEVs.speed) * level / 100 + 5;
+        effectiveStats.hp = (2 * baseStats.hp + (2 * statIVs.hp) + statEVs.hp) * level / 100 + level + 10;
+    }
 
     public void AssignAnimations()
     {
@@ -84,14 +117,8 @@ public abstract class Pokemon : MonoBehaviour {
     }
 
     //This is defending pokemon.
-    public void SetTypeStrength()
+    public void SetTypeStrength(PokemonType type)
     {
-        PokemonInfo.PokemonType type = pokemonType;
-
-        strong = new List<PokemonType>();
-        weak = new List<PokemonType>();
-        noDamage = new List<PokemonType>();
-
         if (type == PokemonType.normal)
         {
             strong.Add(PokemonInfo.PokemonType.fighting);
@@ -243,50 +270,67 @@ public abstract class Pokemon : MonoBehaviour {
         Debug.Log(animator.runtimeAnimatorController.animationClips[index].name);
     }
 
-    public void AdjustStatStage(string stat, int adjustment)
+    public void AdjustStatStage(Stat stat, int adjustment)
     {
         switch(stat)
         {
-            case "hp":
+            case Stat.hp:
                 statStages.hp += adjustment;
                 break;
+            case Stat.attack:
+                statStages.attack += adjustment;
+                break;
+            case Stat.defense:
+                statStages.defense += adjustment;
+                break;
+            case Stat.spAttack:
+                statStages.spAtk += adjustment;
+                break;
+            case Stat.spDefense:
+                statStages.spDef += adjustment;
+                break;
+            case Stat.speed:
+                statStages.speed += adjustment;
+                break;
+            default:
+                throw new System.NullReferenceException();
         };
     }
 
     #region Adjust Stats
     public void Heal ()
     {
-        currentStats = baseStats;
+        effectiveStats = baseStats;
     }
 
     public void AdjustHP(int x)
     {
-        currentStats.hp += x;
+        effectiveStats.hp += x;
     }
 
     public void AdjustATK(int x)
     {
-        currentStats.attack += x;
+        effectiveStats.attack += x;
     }
 
     public void AdjustDEF(int x)
     {
-        currentStats.defense += x;
+        effectiveStats.defense += x;
     }
 
     public void AdjustSPATK(int x)
     {
-        currentStats.spAtk += x;
+        effectiveStats.spAtk += x;
     }
 
     public void AdjustSPDEF(int x)
     {
-        currentStats.spDef += x;
+        effectiveStats.spDef += x;
     }
 
     public void AdjustSPD(int x)
     {
-        currentStats.speed += x;
+        effectiveStats.speed += x;
     }
     #endregion
 }

@@ -5,14 +5,10 @@ public class RoundCompletedState : ByTheTale.StateMachine.State
 {
 
     // Use this for initialization
-    void Start()
+    public override void Enter()
     {
+        base.Enter();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        machine.ChangeState<IdleState>();
     }
 }

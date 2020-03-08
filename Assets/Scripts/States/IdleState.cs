@@ -60,7 +60,7 @@ public class IdleState : ByTheTale.StateMachine.State
     {
         RoundInfo roundInfo = new RoundInfo();
 
-        if (battleController.playerPokemonControl.currentStats.speed > battleController.enemyPokemonControl.currentStats.speed)
+        if (battleController.playerPokemonControl.effectiveStats.speed > battleController.enemyPokemonControl.effectiveStats.speed)
         {
             roundInfo.attackQueue.Enqueue(new Tuple<Pokemon, int, Pokemon>(battleController.playerPokemonControl, playerAttack, battleController.enemyPokemonControl));
             roundInfo.attackQueue.Enqueue(new Tuple<Pokemon, int, Pokemon>(battleController.enemyPokemonControl, enemyAttack, battleController.playerPokemonControl));

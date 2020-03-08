@@ -67,7 +67,7 @@ public class AttackList
             case "Growl":
                 // Status Effect
                 // Attack Name, Type, PP, Accuracy, Stat, Stage
-                attack = new AttackInfo("Growl", PokemonType.normal, 40, 100, Stat.attack, -1);
+                attack = new AttackInfo("Growl", PokemonType.normal, 40, 100, Stat.attack, -1, false);
                 break;
 
             case "Leech Seed":

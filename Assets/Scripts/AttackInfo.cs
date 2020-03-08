@@ -17,6 +17,7 @@ public class AttackInfo
     public StatusEffects condition;
     public Stat stat;
     public int stage;
+    public bool affectsSelf;
 
     public float reactionTime;
 
@@ -51,7 +52,7 @@ public class AttackInfo
     }
 
     //Status Only
-    public AttackInfo(string attackName, PokemonType atype, int app, int aaccuracy, Stat astat, int astage)
+    public AttackInfo(string attackName, PokemonType atype, int app, int aaccuracy, Stat astat, int astage, bool self)
     {
         name = attackName;
         category = Category.status;
@@ -62,6 +63,7 @@ public class AttackInfo
         condition = StatusEffects.none;
         stat = astat;
         stage = astage;
+        affectsSelf = self;
     }
 
     //Condition Only

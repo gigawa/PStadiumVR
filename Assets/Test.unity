@@ -1215,15 +1215,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonName: 
   pokemonType: 11
-  level: 0
-  startingStats:
+  secondaryType: 4
+  level: 5
+  experience: 0
+  effectiveStats:
     hp: 0
     attack: 0
     defense: 0
     spAtk: 0
     spDef: 0
     speed: 0
-  currentStats:
+  statStages:
+    hp: 0
+    attack: 0
+    defense: 0
+    spAtk: 0
+    spDef: 0
+    speed: 0
+  statIVs:
+    hp: 0
+    attack: 0
+    defense: 0
+    spAtk: 0
+    spDef: 0
+    speed: 0
+  statEVs:
     hp: 0
     attack: 0
     defense: 0
@@ -1240,6 +1256,7 @@ MonoBehaviour:
     condition: 0
     stat: 0
     stage: 0
+    affectsSelf: 0
     reactionTime: 0
     animationClip: {fileID: 0}
   - name: Tackle
@@ -1251,6 +1268,7 @@ MonoBehaviour:
     condition: 0
     stat: 0
     stage: 0
+    affectsSelf: 0
     reactionTime: 0
     animationClip: {fileID: 0}
   - name: 
@@ -1262,6 +1280,7 @@ MonoBehaviour:
     condition: 0
     stat: 0
     stage: 0
+    affectsSelf: 0
     reactionTime: 0
     animationClip: {fileID: 0}
   - name: 
@@ -1273,6 +1292,7 @@ MonoBehaviour:
     condition: 0
     stat: 0
     stage: 0
+    affectsSelf: 0
     reactionTime: 0
     animationClip: {fileID: 0}
   weak: 
@@ -1317,15 +1337,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokemonName: 
   pokemonType: 11
-  level: 0
-  startingStats:
+  secondaryType: 4
+  level: 5
+  experience: 0
+  effectiveStats:
     hp: 0
     attack: 0
     defense: 0
     spAtk: 0
     spDef: 0
     speed: 0
-  currentStats:
+  statStages:
+    hp: 0
+    attack: 0
+    defense: 0
+    spAtk: 0
+    spDef: 0
+    speed: 0
+  statIVs:
+    hp: 0
+    attack: 0
+    defense: 0
+    spAtk: 0
+    spDef: 0
+    speed: 0
+  statEVs:
     hp: 0
     attack: 0
     defense: 0
@@ -1342,6 +1378,7 @@ MonoBehaviour:
     condition: 0
     stat: 0
     stage: 0
+    affectsSelf: 0
     reactionTime: 0
     animationClip: {fileID: 0}
   - name: Tackle
@@ -1353,6 +1390,7 @@ MonoBehaviour:
     condition: 0
     stat: 0
     stage: 0
+    affectsSelf: 0
     reactionTime: 0
     animationClip: {fileID: 0}
   - name: 
@@ -1364,6 +1402,7 @@ MonoBehaviour:
     condition: 0
     stat: 0
     stage: 0
+    affectsSelf: 0
     reactionTime: 0
     animationClip: {fileID: 0}
   - name: 
@@ -1375,6 +1414,7 @@ MonoBehaviour:
     condition: 0
     stat: 0
     stage: 0
+    affectsSelf: 0
     reactionTime: 0
     animationClip: {fileID: 0}
   weak: 
