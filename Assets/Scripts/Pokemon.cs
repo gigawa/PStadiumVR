@@ -21,6 +21,7 @@ public abstract class Pokemon : MonoBehaviour {
     public PokemonType secondaryType;
     public int level;
     public int experience;
+    public int currentHP;
 
     protected stats baseStats;
     public stats effectiveStats;
@@ -63,6 +64,7 @@ public abstract class Pokemon : MonoBehaviour {
         SetAttacks();
         SetIVs();
         SetEffectiveStats();
+        currentHP = effectiveStats.hp;
         SetTypeStrength(pokemonType);
         if(secondaryType != PokemonType.none)
         {
@@ -305,7 +307,8 @@ public abstract class Pokemon : MonoBehaviour {
 
     public void AdjustHP(int x)
     {
-        effectiveStats.hp += x;
+        currentHP += x;
+        BattleController.Instance.UpdateHPUI();
     }
 
     public void AdjustATK(int x)
