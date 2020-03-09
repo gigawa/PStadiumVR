@@ -16,7 +16,7 @@ namespace Assets.Scripts
 
         public override void SetInfo()
         {
-            pokemonName = name = "Bulbasaur";
+            name = "Bulbasaur";
             pokemonType = PokemonType.grass;
             secondaryType = PokemonType.poison;
             possibleAttacks = new string[] { "Tackle", "Growl", "Leech Seed", "Vine Whip", "Poison Powder", "Razor Leaf", "Growth", "Sleep Powder", "Solar Beam"};
